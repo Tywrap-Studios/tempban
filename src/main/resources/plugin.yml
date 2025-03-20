@@ -1,0 +1,6 @@
+name: tempban
+version: '1.0.0'
+main: org.tywrapstudios.tempban.Tempban
+api-version: '1.21'
+authors: [ ItsTiazzz, griinzy ]
+description: A plugin that enables you to temporarily ban players.
