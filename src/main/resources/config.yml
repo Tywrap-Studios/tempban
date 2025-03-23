@@ -1,6 +1,6 @@
 # Put your token and API address here to use the external ban API
-- api_client:
+- api-client:
   - token: 123xyz
   - address: http://example:8080
 # Local mode indicates that any bans made should not be sent to the external ban API and should instead only be saved locally.
-- local_mode: false
+- local-mode: false
