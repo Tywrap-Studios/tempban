@@ -10,6 +10,7 @@ import io.papermc.paper.command.brigadier.CommandSourceStack
 import io.papermc.paper.command.brigadier.argument.resolvers.PlayerProfileListResolver
 import net.kyori.adventure.text.Component
 import org.apache.commons.lang3.time.DateUtils
+import org.tywrapstudios.tempban.Tempban
 import java.util.Date
 
 object CommandExecutables {
@@ -25,6 +26,8 @@ object CommandExecutables {
 
         for (offender in offenders) {
             banlist.addBan(offender, reason, date, source.sender.name)
+            val client = Tempban.client
+            client?.addBan(offender, reason ?: "No reason given", source.sender.name, Date().toInstant(), date.toInstant())
             ++i
             source.sender.sendMessage(Component.translatable("command.tempban.success", Component.text(offender.name!!), Component.text(months), Component.text(days), Component.text(hours)))
 

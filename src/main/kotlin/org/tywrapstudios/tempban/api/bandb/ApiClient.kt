@@ -1,5 +1,6 @@
 package org.tywrapstudios.tempban.api.bandb
 
+import com.destroystokyo.paper.profile.PlayerProfile
 import org.json.JSONArray
 import org.json.JSONObject
 import java.net.URI
@@ -9,6 +10,7 @@ import java.net.http.HttpResponse
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import java.util.UUID
 
 class ApiClient(private val token: String, private val address: String) {
 
@@ -24,10 +26,10 @@ class ApiClient(private val token: String, private val address: String) {
         return jsonRes
     }
 
-    fun addBan(playerName: String, uuid: String, reason: String, bannedBy: String, bannedAt: Instant, expiresAt: Instant?): Boolean {
+    fun addBan(player: PlayerProfile, reason: String, bannedBy: String, bannedAt: Instant, expiresAt: Instant?): Boolean {
         val json = JSONObject().apply {
-            put("playerName", playerName)
-            put("uuid", uuid)
+            put("playerName", player.name)
+            put("uuid", player.id)
             put("reason", reason)
             put("bannedBy", bannedBy)
             put("bannedAt", bannedAt.atOffset(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT))
@@ -42,7 +44,7 @@ class ApiClient(private val token: String, private val address: String) {
             return response.statusCode() == 201;
     }
 
-    fun getBan(uuid: String): JSONObject? {
+    fun getBan(uuid: UUID): JSONObject? {
         val request = HttpRequest.newBuilder(URI("$address/api/ban/$uuid"))
             .GET().build()
         val response = httpClient.send(request, HttpResponse.BodyHandlers.ofString())
@@ -53,7 +55,7 @@ class ApiClient(private val token: String, private val address: String) {
         return null
     }
 
-    fun deleteBan(uuid: String): Boolean {
+    fun deleteBan(uuid: UUID): Boolean {
         val request = HttpRequest.newBuilder(URI("$address/api/ban/$uuid"))
             .DELETE().build()
         val response = httpClient.send(request, HttpResponse.BodyHandlers.discarding())
