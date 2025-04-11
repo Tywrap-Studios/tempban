@@ -8,8 +8,10 @@ import org.tywrapstudios.tempban.api.bandb.ApiClient
 import org.tywrapstudios.tempban.command.CommandImpl
 import java.io.File
 
-object Tempban : JavaPlugin() {
-    var client: ApiClient? = null
+class Tempban : JavaPlugin() {
+    companion object {
+        var client: ApiClient? = null
+    }
 
     override fun onEnable() {
         this.lifecycleManager.registerEventHandler(LifecycleEvents.COMMANDS) {

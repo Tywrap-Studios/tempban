@@ -41,7 +41,7 @@ class ApiClient(private val token: String, private val address: String) {
             .header("Content-type", "application/json")
             .build()
             val response = httpClient.send(request, HttpResponse.BodyHandlers.discarding())
-            return response.statusCode() == 201;
+            return response.statusCode() == 201
     }
 
     fun getBan(uuid: UUID): JSONObject? {
